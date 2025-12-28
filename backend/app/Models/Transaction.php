@@ -6,31 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Item extends Model
+class Transaction extends Model
 {
     use SoftDeletes;
-    protected $table = 'items';
+    protected $table = 'transactions';
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
         'id',
-        'company_id',
-        'item_type_id',
-        'item_group_id',
-        'item_account_group_id',
-        'item_unit_id',
-        'code',
-        'label',
-        'is_active',
+        'Company',
+        'CompanyName',
+        'Code',
+        'Date',
+        'Account',
+        'AccountName',
+        'Note',
     ];
 
-    // Casting
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
-
-    /**
+        /**
      * Auto generate UUID saat create
      */
     protected static function booted()

@@ -12,9 +12,9 @@ class ItemRepository
         $this->model = $model;
     }
 
-    public function index()
+    public function index(int $perPage = 10)
     {
-        return $this->model->all();
+        return $this->model->paginate($perPage);
     }
 
     public function create(array $data): Item

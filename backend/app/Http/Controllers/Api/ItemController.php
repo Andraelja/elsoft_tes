@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\ItemRequest;
 use App\Services\ItemService;
-use App\Repositories\ItemRepository;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     use ApiResponse;
-    
+
     protected $itemService;
 
     public function __construct(ItemService $itemService)
@@ -26,13 +25,13 @@ class ItemController extends Controller
         return $this->successResponse($items, 'Items retrieved successfully');
     }
 
-    public function find($id)
+    public function find(string $Oid)
     {
-        $item = $this->itemService->getItemById($id);
-        if ($item) {
-            return $this->successResponse($item, 'Item retrieved successfully');
-        }
-        return $this->errorResponse('Item not found', 404);
+        $item = $this->itemService->getItemById($Oid);
+
+        return $item
+            ? $this->successResponse($item, 'Item retrieved successfully')
+            : $this->errorResponse('Item not found', 404);
     }
 
     public function store(ItemRequest $request)
@@ -42,22 +41,27 @@ class ItemController extends Controller
         return $this->successResponse($item, 'Item created successfully', 201);
     }
 
-    public function update(ItemRequest $request, $id)
+    public function save(Request $request)
     {
-        $data = $request->validated();
-        $item = $this->itemService->updateItem($id, $data);
-        if ($item) {
-            return $this->successResponse($item, 'Item updated successfully');
+        $oid = $request->query('Oid');
+
+        if ($oid) {
+            $item = $this->itemService->updateItem($oid, $request->all());
+            return $item
+                ? $this->successResponse($item, 'Item updated successfully')
+                : $this->errorResponse('Item not found', 404);
         }
-        return $this->errorResponse('Item not found', 404);
+
+        $item = $this->itemService->createItem($request->all());
+        return $this->successResponse($item, 'Item created successfully', 201);
     }
 
-    public function destroy($id)
+    public function destroy(string $Oid)
     {
-        $deleted = $this->itemService->deleteItem($id);
-        if ($deleted) {
-            return $this->successResponse(null, 'Item deleted successfully');
-        }
-        return $this->errorResponse('Item not found', 404);
+        $deleted = $this->itemService->deleteItem($Oid);
+
+        return $deleted
+            ? $this->successResponse(null, 'Item deleted successfully')
+            : $this->errorResponse('Item not found', 404);
     }
 }
