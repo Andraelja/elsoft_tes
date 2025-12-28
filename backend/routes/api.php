@@ -26,6 +26,7 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         Route::post('/', [TransactionController::class, 'store']);
         Route::put('/{Oid}', [TransactionController::class, 'update']);
         Route::delete('/{Oid}', [TransactionController::class, 'destroy']);
+        Route::post('/detail', [TransactionController::class, 'createDetail']);
         Route::post('/save', [TransactionController::class, 'save']);
     });
 });
