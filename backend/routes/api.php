@@ -16,9 +16,8 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         Route::get('/list', [ItemController::class, 'index']);
         Route::get('/{Oid}', [ItemController::class, 'find']);
         Route::post('/', [ItemController::class, 'store']);
-        Route::put('/{Oid}', [ItemController::class, 'update']);
         Route::delete('/{Oid}', [ItemController::class, 'destroy']);
-        Route::post('/save', [ItemController::class, 'save']);
+        Route::put('/save', [ItemController::class, 'save']);
     });
 
     Route::prefix('stockissue')->group(function () {
