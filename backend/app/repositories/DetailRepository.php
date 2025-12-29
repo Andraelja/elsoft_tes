@@ -12,4 +12,9 @@ class DetailRepository
     {
         $this->model = $model;
     }
+
+    public function create(array $data): Detail
+    {
+        return $this->model->create($data);
+    }
 }

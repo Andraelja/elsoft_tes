@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\DetailController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/signin', [AuthController::class, 'login']);
@@ -26,7 +27,10 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         Route::post('/', [TransactionController::class, 'store']);
         Route::put('/{Oid}', [TransactionController::class, 'update']);
         Route::delete('/{Oid}', [TransactionController::class, 'destroy']);
-        Route::post('/detail', [TransactionController::class, 'createDetail']);
         Route::post('/save', [TransactionController::class, 'save']);
+    });
+
+    Route::prefix('stockissue')->group(function () {
+        Route::post('/detail', [DetailController::class, 'store']);
     });
 });

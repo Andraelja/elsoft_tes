@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Model\Detail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Item extends Model
 {
     use SoftDeletes;
+
     protected $table = 'items';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -36,9 +39,14 @@ class Item extends Model
     protected static function booted()
     {
         static::creating(function ($model) {
-            if (! $model->id) {
+            if (!$model->id) {
                 $model->id = (string) Str::uuid();
             }
         });
+    }
+
+    public function details(): HasMany
+    {
+        return $this->hasMany(Detail::class, 'Item');
     }
 }
