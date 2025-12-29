@@ -17,4 +17,23 @@ class DetailRepository
     {
         return $this->model->create($data);
     }
+
+    public function update(string $id, array $data): ?Detail
+    {
+        $detail = $this->model->find($id);
+        if ($detail) {
+            $detail->update($data);
+            return $detail;
+        }
+        return null;
+    }
+
+    public function delete(string $id): bool
+    {
+        $detail = $this->model->find($id);
+        if($detail) {
+            return (bool) $detail->delete();
+        }
+        return false;
+    }
 }

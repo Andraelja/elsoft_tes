@@ -30,7 +30,9 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         Route::post('/save', [TransactionController::class, 'save']);
     });
 
-    Route::prefix('stockissue')->group(function () {
-        Route::post('/detail', [DetailController::class, 'store']);
+    Route::prefix('stockissue/detail')->group(function () {
+        Route::post('/', [DetailController::class, 'store']);
+        Route::put('/{Oid}', [DetailController::class, 'update']);
+        Route::delete('/{Oid}', [DetailController::class, 'destroy']);
     });
 });

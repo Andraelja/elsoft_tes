@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Item;
+use Illuminate\Support\Str;
 use App\Models\Transaction;
 
 class Detail extends Model
@@ -25,6 +26,15 @@ class Detail extends Model
     protected $casts = [
         'Quantity' => 'float',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (! $model->id) {
+                $model->id = (string) Str::uuid();
+            }
+        });
+    }
 
     public function item(): BelongsTo
     {

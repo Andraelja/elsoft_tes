@@ -18,4 +18,14 @@ class DetailService
     {
         return $this->detailRepository->create($data);
     }
+
+    public function updateDetail(string $id, array $data): ?Detail
+    {
+        return $this->detailRepository->update($id, $data);
+    }
+
+    public function deleteDetail(string $id): bool
+    {
+        return $this->detailRepository->delete($id);
+    }
 }

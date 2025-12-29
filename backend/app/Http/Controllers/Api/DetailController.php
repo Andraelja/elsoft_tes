@@ -26,4 +26,24 @@ class DetailController extends Controller
         $detail = $this->detailService->createDetail($data);
         return $this->successResponse($detail, 'Detail created successfully', 201);
     }
+
+    public function update(string $Oid, DetailRequest $request)
+    {
+        $detail = $this
+            ->detailService
+            ->updateDetail($Oid, $request->validated());
+
+        return $detail
+            ? $this->successResponse($detail, 'Detail updated successfully')
+            : $this->errorResponse('Detail not found', 404);
+    }
+
+    public function destroy(string $Oid)
+    {
+        $deleted = $this->detailService->deleteDetail($Oid);
+
+        return $deleted
+            ? $this->successResponse(null, 'Detail deleted successfully')
+            : $this->errorResponse('Detail not found', 404);
+    }
 }
